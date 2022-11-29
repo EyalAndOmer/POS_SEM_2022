@@ -15,8 +15,8 @@ Pri protokoloch, ktoré to dovoľujú, aplikáciatiež umožní pozastaviť aleb
 Poznámka: aplikácia  nesmie  byť  implementovaná  spoužitím  nástroja **Wget**  a iných  podobných  nástrojov slúžiacich na sťahovanie internetového obsahu.
 
 # Poznatky ku zadaniu
-Jedna sa o program, kde budu medzi sebou komunikovat server a klient.
-Server a klient budu predstavovat 2 sockety.
-Klient bude vyuzivat OpenSSL na pouzitie ftps a htttps protokolov.
-Jedno stahovanie bude jedno vlakno na servery, aby sa povolilo stahovanie viacero suborov naraz, nie za sebou.
-Dalsie atributy spomenute v zadani budu riesene cez buffer, ktory bude server zdielat so svojimi vlaknami.
+- Jedna sa o program, kde budu medzi sebou komunikovat server a klient.
+- Server a klient budu predstavovat 2 sockety.
+- Klient bude vyuzivat OpenSSL na pouzitie ftps a htttps protokolov.
+- Jedno stahovanie bude jedno vlakno na servery, aby sa povolilo stahovanie viacero suborov naraz, nie za sebou.
+- Dalsie atributy spomenute v zadani budu riesene cez buffer, ktory bude server zdielat so svojimi vlaknami.
