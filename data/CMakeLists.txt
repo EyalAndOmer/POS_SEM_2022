@@ -1,0 +1,8 @@
+set(GRESOURCE_FILE ${GENERATED_DATA_DIR}/${PROJECT_NAME}.gresource.xml)
+set(GSCHEMA_FILE ${GENERATED_DATA_DIR}/${APPLICATION_ID}.gschema.xml)
+set(DESKTOP_FILE ${GENERATED_DATA_DIR}/${APPLICATION_ID}.desktop)
+set(ICON_FILE ${GENERATED_DATA_DIR}/${PROJECT_NAME}.png)
+
+configure_file(gresource.xml.in ${GRESOURCE_FILE})
+
+install(SCRIPT ${PROJECT_SOURCE_DIR}/cmake/InstallScript.cmake)
