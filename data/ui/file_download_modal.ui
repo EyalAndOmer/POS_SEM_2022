@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Created with Cambalache 0.10.3 -->
+<interface>
+  <!-- interface-name file_download_modal.ui -->
+  <requires lib="gtk" version="4.6"/>
+  <object class="GtkWindow" id="file_start_download_window">
+    <property name="icon-name">media-flash</property>
+    <child>
+      <object class="GtkBox" id="wrapper">
+        <property name="orientation">vertical</property>
+        <child>
+          <object class="GtkGrid" id="content_wrapper">
+            <property name="column-homogeneous">True</property>
+            <child>
+              <object class="GtkLabel" id="file_name">
+                <property name="ellipsize">start</property>
+                <property name="halign">start</property>
+                <property name="justify">right</property>
+                <property name="label">Nazov suboru</property>
+                <layout>
+                  <property name="column">0</property>
+                  <property name="column-span">1</property>
+                  <property name="row">0</property>
+                  <property name="row-span">1</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="GtkLabel" id="file_name_label">
+                <property name="xalign">0.0</property>
+                <layout>
+                  <property name="column">1</property>
+                  <property name="column-span">1</property>
+                  <property name="row">0</property>
+                  <property name="row-span">1</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="GtkLabel" id="priority_label">
+                <property name="ellipsize">start</property>
+                <property name="halign">start</property>
+                <property name="justify">right</property>
+                <property name="label">Priorita stahovania</property>
+                <layout>
+                  <property name="column">0</property>
+                  <property name="column-span">1</property>
+                  <property name="row">1</property>
+                  <property name="row-span">1</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="GtkLabel" id="start_download_label">
+                <property name="ellipsize">start</property>
+                <property name="halign">start</property>
+                <property name="justify">right</property>
+                <property name="label">Zaciatok stahovania</property>
+                <layout>
+                  <property name="column">0</property>
+                  <property name="column-span">1</property>
+                  <property name="row">2</property>
+                  <property name="row-span">1</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="GtkComboBoxText" id="priority_combo_button">
+                <layout>
+                  <property name="column">1</property>
+                  <property name="column-span">1</property>
+                  <property name="row">1</property>
+                  <property name="row-span">1</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="GtkBox" id="start_download_time_wrapper">
+                <property name="homogeneous">True</property>
+                <child>
+                  <object class="GtkSpinButton" id="hour_spin_button">
+                    <property name="climb-rate">1.0</property>
+                    <property name="numeric">True</property>
+                    <property name="orientation">vertical</property>
+                    <property name="wrap">True</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkSpinButton" id="minute_spin_button">
+                    <property name="accessible-role">meter</property>
+                    <property name="climb-rate">1.0</property>
+                    <property name="numeric">True</property>
+                    <property name="orientation">vertical</property>
+                    <property name="wrap">True</property>
+                  </object>
+                </child>
+                <layout>
+                  <property name="column">1</property>
+                  <property name="column-span">1</property>
+                  <property name="row">2</property>
+                  <property name="row-span">1</property>
+                </layout>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="GtkBox" id="buttons_wrapper">
+            <property name="homogeneous">True</property>
+            <property name="spacing">5</property>
+            <child>
+              <object class="GtkButton">
+                <property name="label">Zrusit</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkButton">
+                <property name="label">Zacni stahovanie</property>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>

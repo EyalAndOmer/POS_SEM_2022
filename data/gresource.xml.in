@@ -2,5 +2,6 @@
 <gresources>
   <gresource prefix="@APPLICATION_PREFIX@">
     <file preprocess="xml-stripblanks">ui/main_window.ui</file>
+    <file preprocess="xml-stripblanks">ui/file_download_modal.ui</file>
   </gresource>
 </gresources>
