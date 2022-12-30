@@ -9,6 +9,12 @@ public:
 
 protected:
     Glib::RefPtr<Gtk::Builder> m_refBuilder;
-    Gtk::Button* m_test_button {nullptr};
+    Gtk::Button* m_connect_to_server_button {nullptr};
     Gtk::ComboBoxText* m_select_protocol {nullptr};
+
+    MainAppWindow* main_app_window;
+
+    void on_connect_to_server();
+
+    void on_close_server();
 };
