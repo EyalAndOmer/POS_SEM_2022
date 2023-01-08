@@ -1,35 +1,26 @@
-cmake_minimum_required(VERSION 3.8)
+cmake_minimum_required(VERSION 3.18)
+project(download_manager)
+set(CMAKE_C_STANDARD 99)
 
-project(POS_SEM VERSION 1.0)
+add_executable(client ftp.c http.c logger.c https.c)
 
-# Set the APPLICATION_ID
-set(APPLICATION_ID "org.gtkmm.ApplicationTemplate")
-string(REPLACE "." "/" APPLICATION_PREFIX "/${APPLICATION_ID}/")
+target_link_libraries(client pthread)
 
-# Setup the resource installation files
-list(INSERT CMAKE_MODULE_PATH 0 ${PROJECT_SOURCE_DIR}/cmake)
-include(GlibUtils)
-include(InstallScript)
-
-# Set the origin files for the resource installation
-set(GENERATED_FILES_DIR ${PROJECT_BINARY_DIR}/generated)
-set(GENERATED_SOURCES_DIR ${GENERATED_FILES_DIR}/src)
-set(GENERATED_DATA_DIR ${GENERATED_FILES_DIR}/data)
-
-# Link the resource paths to the projectdefinitions
-configure_file(cmake/projectdefinitions.h.in ${GENERATED_SOURCES_DIR}/projectdefinitions.h)
-
-# Init gtkmm-4.0
+# Add openSSL libraries
 find_package(PkgConfig REQUIRED)
-pkg_check_modules(GTKMM REQUIRED gtkmm-4.0)
+pkg_search_module(OPENSSL REQUIRED openssl)
 
-# Link gtkmm-4.0 libraries
-link_directories(${GTKMM_LIBRARY_DIRS})
-include_directories(${GTKMM_INCLUDE_DIRS})
+if( OPENSSL_FOUND )
+    include_directories(${OPENSSL_INCLUDE_DIRS})
+    message(STATUS "Using OpenSSL ${OPENSSL_VERSION}")
+else()
+    # Error; with REQUIRED, pkg_search_module() will throw an error by it's own
+endif()
 
-# Include directories in the project
-add_subdirectory(src)
-add_subdirectory(data)
+target_link_libraries(client ${OPENSSL_LIBRARIES})
 
-# Set the uninstall script to work
-install(FILES cmake/uninstall.sh DESTINATION ${PROJECT_BINARY_DIR} PERMISSIONS OWNER_EXECUTE OWNER_READ OWNER_WRITE)
+# Add custom command to clean out execution data
+add_custom_target(clean_everything
+        COMMAND ${CMAKE_BUILD_TOOL} clean
+        COMMAND ${CMAKE_COMMAND} -P clean-all.cmake
+        )
