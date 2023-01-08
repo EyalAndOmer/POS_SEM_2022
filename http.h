@@ -16,7 +16,8 @@ typedef struct {
     char* file_url_path;
     pthread_mutex_t *mutex;
     int* pause_flag;
-} thread_args;
+} thread_args_http;
 
 void set_thread_priority(pthread_t thread, int priority);
 void* download_file(void *arg);
+void http_connection();

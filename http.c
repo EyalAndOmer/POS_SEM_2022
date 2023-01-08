@@ -16,7 +16,7 @@ void* download_file(void *arg) {
     // Simulate download start at specific time
     sleep(rand() % 10);
 
-    thread_args *args = (thread_args *)arg;
+    thread_args_http *args = (thread_args_http *)arg;
     char buffer[BUFFER_SIZE];
     memset(&buffer, 0, sizeof(buffer));
     int bytes_received;
@@ -26,7 +26,7 @@ void* download_file(void *arg) {
     int sockfd = socket(AF_INET, SOCK_STREAM, 0);
     if (sockfd < 0) {
         perror("Error opening socket");
-        exit(1);
+        pthread_exit(NULL);
     }
 
     struct hostent *server = gethostbyname(args->hostname);
@@ -62,10 +62,10 @@ void* download_file(void *arg) {
 
     // Search for status of response
     bytes_received = recv(sockfd, ptr, 1, 0);
-    while(bytes_received){
-        if(bytes_received==-1) {
-            perror("ReadHttpStatus");
-            exit(1);
+    while(bytes_received) {
+        if(bytes_received == -1) {
+            perror("Error receiving data from server");
+            pthread_exit(NULL);
         }
         // Check for the end of line
         if((ptr[-1]=='\r')  && (*ptr=='\n' ))  {
@@ -82,7 +82,7 @@ void* download_file(void *arg) {
 
     if (status != 200) {
         perror("Status is not 200!");
-        exit(1);
+        pthread_exit(NULL);
     }
 
     // Search for content length of response
@@ -93,7 +93,7 @@ void* download_file(void *arg) {
 
         if(bytes_received==-1) {
             perror("Parse Header");
-            exit(1);
+            pthread_exit(NULL);
         }
 
         if( (ptr[-3]=='\r')  && (ptr[-2]=='\n') && (ptr[-1]=='\r')  && (*ptr=='\n')) {
@@ -113,7 +113,7 @@ void* download_file(void *arg) {
             sscanf(ptr,"%*s %d",&content_length);
         } else {
             perror("Request without content length are ignored!");
-            exit(1);
+            pthread_exit(NULL);
         }
     }
 
@@ -128,7 +128,6 @@ void* download_file(void *arg) {
 
     // Read the data from the server and write it to the file
     int remaining = content_length;
-    int received_byte_count;
 
     // Download while you dont have all the data
     memset(&buffer, 0, sizeof(buffer));
@@ -150,9 +149,13 @@ void* download_file(void *arg) {
         }
 
         // Get data and write it to file
-        received_byte_count = recv(sockfd, buffer, BUFFER_SIZE, 0);
-        remaining -= received_byte_count;
-        fwrite(buffer, 1, received_byte_count, fp);
+        bytes_received = recv(sockfd, buffer, BUFFER_SIZE, 0);
+        if (bytes_received == -1) {
+            perror("Error receiving data from server");
+            pthread_exit(NULL);
+        }
+        remaining -= bytes_received;
+        fwrite(buffer, 1, bytes_received, fp);
         memset(&buffer, 0, sizeof(buffer));
     }
 
@@ -163,13 +166,13 @@ void* download_file(void *arg) {
     pthread_exit(NULL);
 }
 
-int xdd() {
+void http_connection() {
     srand(time(NULL));
-//  Thread code
+    //  Thread code
     pthread_mutex_t mutex;
     pthread_mutex_init(&mutex, NULL);
 
-    thread_args args[5];
+    thread_args_http args[5];
     pthread_t file_download_threads[5];
 
     char* file_paths[5] = {"/code/intro.txt", "/code/emaildb.py", "/code/pagerank.zip",
@@ -196,5 +199,4 @@ int xdd() {
     }
 
     pthread_mutex_destroy(&mutex);
-    return 0;
 }
